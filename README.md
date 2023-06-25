@@ -16,4 +16,5 @@ I created Spring boot endpoints to:
 For K8s cluster:
 
 I installed minikube and created k8s cluster with one master and one worker:
+
 minikube start --nodes=2minikube start --nodes=2
