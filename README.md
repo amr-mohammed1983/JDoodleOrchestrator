@@ -1,8 +1,8 @@
 JDoodle PoC.
 
-I created and VM using Virutal Box and installed Docker engine in it.
+I created a VM using Virutal Box and installed Docker engine in it.
 
-I built the docker file in the resources folder, using the following command:
+I built the docker file in the resources folder, and built the imag using the following command:
 
 docker build -t amrmoha/poc-amr:jdoodle-orchestrator-v1 .
 
