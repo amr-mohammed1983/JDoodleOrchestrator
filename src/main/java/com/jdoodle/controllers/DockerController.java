@@ -21,7 +21,7 @@ public class DockerController {
         try
         {
             DockerUtils dockerUtils = new DockerUtils();
-
+            dockerUtils.config();
             message = dockerUtils.createAndStartDockerContainer(imageName,tag);
 
         }catch(Exception e)
@@ -47,11 +47,14 @@ public class DockerController {
     }
 
     @GetMapping("/get-page-docker")
-    public String getPageFromDocker()
+    public String getPageFromDocker(@RequestParam("containerId") String containerId)
     {
         String message = "Success";
         try
         {
+            DockerUtils dockerUtils = new DockerUtils();
+            dockerUtils.config();
+            message = dockerUtils.inspectContainer(containerId);
 
         }catch(Exception e)
         {

@@ -18,3 +18,8 @@ For K8s cluster:
 I installed minikube and created k8s cluster with one master and one worker:
 
 minikube start --nodes=2minikube start --nodes=2
+
+
+I changed context so that kubectl is pointing to docker-desktop:
+- kubectl config get-contexts
+- kubectl config use-context docker-desktop

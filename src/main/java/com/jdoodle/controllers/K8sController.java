@@ -2,6 +2,7 @@ package com.jdoodle.controllers;
 
 import com.google.gson.Gson;
 import com.jdoodle.utils.DockerUtils;
+import com.jdoodle.utils.K8SUtils;
 import jakarta.ws.rs.PathParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,8 @@ public class K8sController {
         String message = "";
         try
         {
-
+            K8SUtils k8SUtils = new K8SUtils();
+            message = k8SUtils.createAndStartDockerK8s(imageName,tag);
         }catch(Exception e)
         {
             message = e.getMessage();
@@ -26,11 +28,12 @@ public class K8sController {
     }
 
     @PostMapping("/stop-docker-k8s")
-    public String stopDockerK8s(@PathParam("containerId") String containerId) {
+    public String stopDockerK8s(@PathParam("podName") String podName) {
         String message = "Success";
         try
         {
-
+            K8SUtils k8SUtils = new K8SUtils();
+            message = k8SUtils.stopDockerK8s(podName);
         }catch(Exception e)
         {
             message = e.getMessage();

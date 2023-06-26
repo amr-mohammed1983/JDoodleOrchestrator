@@ -8,6 +8,10 @@ import org.mandas.docker.client.exceptions.DockerCertificateException;
 import org.mandas.docker.client.exceptions.DockerException;
 import org.mandas.docker.client.messages.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -125,5 +129,29 @@ public class DockerUtils {
             }
             return dockerContainers;
 
+    }
+
+    public String inspectContainer(String containerId)
+    {
+        String response = "";
+        try
+        {
+            ContainerInfo containerInfo = dockerClient.inspectContainer(containerId);
+            String containerIpAddress   = containerInfo.networkSettings().ipAddress();
+            String containerUrl         = "http://" + containerIpAddress + ":22";
+            HttpClient httpClient       = HttpClient.newHttpClient();
+            HttpRequest httpRequest     = HttpRequest.newBuilder()
+                    .uri(URI.create(containerUrl))
+                    .build();
+            HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            String responseBody = httpResponse.body();
+            int statusCode = httpResponse.statusCode();
+            response = statusCode+":"+responseBody;
+        }
+        catch(Exception e)
+        {
+            response = e.getMessage();
+        }
+        return response;
     }
 }
